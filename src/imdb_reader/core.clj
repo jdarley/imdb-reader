@@ -1,6 +1,6 @@
 (ns imdb-filter.core
-  (:require [hindi-filter.roles :refer :all]
-            [hindi-filter.utils :refer :all]
+  (:require [imdb-filter.roles :refer :all]
+            [imdb-filter.utils :refer :all]
             [cheshire.core :refer :all]))
 
 (def movie-pattern #"^# ")
