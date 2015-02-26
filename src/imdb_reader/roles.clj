@@ -1,4 +1,4 @@
-(ns imdb-filter.roles)
+(ns imdb-reader.roles)
 
 (def artist-join-pattern #"(,\s|\sand\s|\s&\s|\sFeat\.\s)")
 
@@ -137,7 +137,6 @@
     (nth (first (re-seq known-artist-pattern name)) 1)
     name))
 
-;; Remove the vec from here - we need to extract all names
 (defn extract-names
   [s]
   (let [names (nth (first (re-seq role-pattern s)) 3)]
