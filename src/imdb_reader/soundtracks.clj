@@ -7,9 +7,9 @@
 (def song-pattern #"^- ")
 
 (defn add-movie-key
-  [mvs v]
+  [insert-fn v]
   (let [movie (trim movie-pattern v)]
-    (if (mvs movie)
+    (if (insert-fn movie)
       [movie]
       [])))
 
@@ -20,10 +20,10 @@
     []))
 
 (defn update-keys
-  [mvs ks v]
+  [insert-fn ks v]
   (cond
     (empty? v) []
-    (re-seq movie-pattern v) (add-movie-key mvs v)
+    (re-seq movie-pattern v) (add-movie-key insert-fn v)
     (re-seq song-pattern v) (add-track-key ks v)
     :else (if (>= (count ks) 2)
             (let [ks (vec (take 2 ks))]
@@ -41,18 +41,18 @@
 
 (defn parse-soundtracks-from-reader
   [movies reader]
-  (let [lines (line-seq reader)]
-    (loop [mvs movies
-           m {}
+  (let [insert-fn (create-insert-fn movies)
+        lines (line-seq reader)]
+    (loop [m {}
            ks []
            ls lines]
       (if (empty? ls)
         m
         (let [l (first ls)
-              ks (update-keys mvs ks l)]
-          (recur mvs (update-map m ks l) ks (rest ls)))))))
+              ks (update-keys insert-fn ks l)]
+          (recur (update-map m ks l) ks (rest ls)))))))
 
-(defn parse-soundtracks
+(defn read-soundtracks
   [movies]
   (with-gzip-file (partial parse-soundtracks-from-reader movies) "resources/soundtracks.list.gz"))
 

@@ -15,3 +15,10 @@
                       (java.util.zip.GZIPInputStream.
                         (io/input-stream filename)))]
     (fn reader)))
+
+(defn create-insert-fn
+  [m]
+  (if (empty? m)
+    (constantly true)
+    (fn [k]
+      (m k))))

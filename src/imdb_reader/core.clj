@@ -15,6 +15,12 @@
           :tracks (create-tracks tracks)}) m))
 
 (defn go []
-  (let [movies (filter-movies "Bengali")
-        soundtracks (parse-soundtracks movies)]
-    (spit "/home/jdarley/Desktop/bengali-tracks.json" (generate-string (vec (create-representation soundtracks)) {:pretty true}))))
+  (let [movies (read-languages "Hindi" {})
+        soundtracks (read-soundtracks {})]
+    (take 1 soundtracks)))
+
+
+;(spit "/home/jdarley/Desktop/bengali-tracks.json" (generate-string
+;                                                    ;(vec (create-representation soundtracks))
+;                                                    movies
+;                                                    {:pretty true}))))
